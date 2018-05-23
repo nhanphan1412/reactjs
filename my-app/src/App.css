@@ -18,6 +18,11 @@
   font-size: 1.5em;
 }
 
+#content{
+  border: 5px solid rebeccapurple;
+  padding: 20px;
+}
+
 .App-intro {
   font-size: large;
 }

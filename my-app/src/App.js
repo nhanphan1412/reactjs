@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
-import Header from './components/Header';
-import Product from './components/Product';
+import './App.css';
+import ColorPicker from "./components/ColorPicker"
+import Result from "./components/Result"
+import SizeSetting from "./components/SizeSetting"
+import Reset from "./components/Reset"
 
 class App extends Component {
   render() {
     return (
-		<div>
-        	<Header />
-			<div className="container">
-				<div className="row">
-					<div className="col-lg-4">
-						<Product />
-					</div>
-					<div className="col-lg-4">
-						<Product />
-					</div>
-					<div className="col-lg-4">
-						<Product />
-					</div>
-				</div>
-			</div>
-		</div>
+        <div className="container">
+            <div className="row">
+                <ColorPicker />
+                <div className="col-lg-6">
+                    <SizeSetting />
+                    <Reset />
+                </div>
+            </div>
+            <div className="row">
+                <Result />
+            </div>
+        </div>
     );
   }
 }
