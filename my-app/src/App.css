@@ -36,6 +36,10 @@ span.active{
   border: 2px solid white;
 }
 
+.mt-30{
+  margin-top: 30px;
+}
+
 .App-intro {
   font-size: large;
 }
