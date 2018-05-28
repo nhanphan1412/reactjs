@@ -7,6 +7,8 @@ class ColorPicker extends Component {
         this.state = {
             colors: ['red', 'green', 'cornflowerblue', 'gray']
         }
+
+        this.state.active_color = this.props.color;
     }
 
     showColor(color){
@@ -15,9 +17,9 @@ class ColorPicker extends Component {
         }
     }
 
-    setActiveColor(color){
-        this.props.onReceiveColor(color);
-    }
+    // setActiveColor(color){
+    //     this.props.onReceiveColor(color);
+    // }
 
     render() {
 
@@ -25,8 +27,11 @@ class ColorPicker extends Component {
             return <span 
                         key={index} 
                         style={ this.showColor(color) }
-                        className={this.props.color === color ? 'active' : ''}
-                        onClick = { () => this.setActiveColor(color)}
+                        className={this.state.active_color === color ? 'active' : ''}
+                        onClick = { () => {
+                            this.setState({active_color: color});
+                            this.props.onChangeColor && this.props.onChangeColor(color);
+                        }}
                     >
                     </span>
         });
