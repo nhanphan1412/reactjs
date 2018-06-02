@@ -9,7 +9,8 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            tasks : []
+            tasks : [],
+            isDisplayForm: false
         }
     }
 
@@ -41,7 +42,7 @@ class App extends Component {
             }
         ];
         this.setState({
-            tasks : tasks 
+            tasks : tasks
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
@@ -54,8 +55,37 @@ class App extends Component {
         return this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4()
     }
 
+    onToggleForm = () => {
+        this.setState({
+          isDisplayForm : true
+        });
+    }
+
+    onCloseForm = () => {
+        this.setState({
+          isDisplayForm : false
+        });
+    }
+
+    onSubmit = (data) => {
+        // var task = {
+        //     id : this.generateID(),
+        //     name : data.name,
+        //     status : data.status
+        // }
+        var { tasks } = this.state;
+        data.id = this.generateID();
+        tasks.push(data);
+        this.setState({
+            tasks : tasks
+        });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        console.log(data);
+    }
+
   render() {
-      var { tasks } = this.state;
+      var { tasks, isDisplayForm } = this.state;
+      var elmTaskForm = isDisplayForm === true ? <TaskForm onSubmit={ this.onSubmit } onCloseForm= { this.onCloseForm } /> : '';
     return (
         <div className="container manageJob">
             <div className="row">
@@ -65,16 +95,16 @@ class App extends Component {
             </div>
 
             <div className="row mt-30">
-                <div className="col-4">
+                <div className= { isDisplayForm ? 'col-4' : '' }>
                     { /* Form */ }
-                    <TaskForm />
+                    { elmTaskForm }
                     { /* End Form */ }
                 </div>
 
-                <div className="col-8">
+                <div className={ isDisplayForm ? 'col-8' : 'col-12' }>
                     <div className="row">
                         <div className="col-12">
-                            <button className="btn btn-primary">
+                            <button className="btn btn-primary" onClick={ () => this.onToggleForm() }>
                                 <i className="fa fa-plus" aria-hidden="true"></i> Thêm công việc
                             </button>&nbsp;
                             <button className="btn btn-danger" onClick= { () => this.onGenerateData()}>
@@ -93,7 +123,7 @@ class App extends Component {
                     </div>
                     { /* End List */ }
                 </div>
-            </div>      
+            </div>
         </div>
     );
   }

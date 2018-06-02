@@ -2,24 +2,53 @@ import React, { Component } from 'react';
 
 class TaskForm extends Component {
 
+  constructor(props){
+    super(props);
+      this.state = {
+          name : '',
+          status : false
+      }
+  }
+
+  onCloseForm = () => {
+      this.props.onCloseForm();
+  }
+
+  onChange = (event) => {
+    var target = event.target;
+    var name = target.name;
+    var value = target.value;
+    if (name === 'status'){
+      value = target.value === 'true' ? true : false;
+    }
+    this.setState({
+      [name] : value
+    });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    this.props.onSubmit(this.state);
+  }
+
   render() {
     return (
         <div className="card">
             <div className="card-header bg-warning">
                 <h5 className="panel-title">Thêm Công Việc
-                    <i className="fa fa-times-circle text-red pull-right" aria-hidden="true"></i>
+                    <span onClick = { this.onCloseForm }><i className="fa fa-times-circle text-red pull-right" aria-hidden="true"></i></span>
                 </h5>
             </div>
             <div className="card-body">
-                <form>
+                <form onSubmit={ this.onSubmit }>
                     <div className="form-group">
                         <label>Tên :</label>
-                        <input type="text" className="form-control" />
+                        <input type="text" className="form-control" name="name" value={ this.state.name } onChange={ this.onChange} />
                     </div>
                     <label>Trạng Thái :</label>
-                    <select className="form-control" required="required">
-                        <option value="1">Kích Hoạt</option>
-                        <option value="0">Ẩn</option>
+                    <select className="form-control" required="required" name="status" value={ this.state.status } onChange={ this.onChange}>
+                        <option value={ true }>Kích Hoạt</option>
+                        <option value={ false }>Ẩn</option>
                     </select>
                     <div className="text-center mt-30">
                         <button type="submit" className="btn btn-warning text-white">
