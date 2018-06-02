@@ -58,6 +58,10 @@ span.active {
 	border-top-left-radius: 0;
 }
 
+.card h5{
+	margin-bottom: 0;
+}
+
 @keyframes App-logo-spin {
 	from {
 		transform: rotate(0deg);
