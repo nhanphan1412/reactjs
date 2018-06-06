@@ -23,30 +23,6 @@ class App extends Component {
         });
     }
 
-    onGenerateData = () => {
-        var tasks = [
-            {
-                id : this.generateID(),
-                name : 'Hoc lap trinh',
-                status : true
-            },
-            {
-                id : this.generateID(),
-                name : 'Đi học',
-                status : false
-            },
-            {
-                id : this.generateID(),
-                name : 'Đi bơi',
-                status : true
-            }
-        ];
-        this.setState({
-            tasks : tasks
-        });
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-
     s4(){
         return Math.floor((1+Math.random()) * 0x10000).toString(16).substring(1);
     }
@@ -68,11 +44,6 @@ class App extends Component {
     }
 
     onSubmit = (data) => {
-        // var task = {
-        //     id : this.generateID(),
-        //     name : data.name,
-        //     status : data.status
-        // }
         var { tasks } = this.state;
         data.id = this.generateID();
         tasks.push(data);
@@ -81,6 +52,30 @@ class App extends Component {
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
         console.log(data);
+    }
+
+    onUpdateStatus = (id) => {
+      var { tasks } = this.state;
+      var index = this.findIndex(id);
+      console.log(id);
+      if(index !== -1){
+        tasks[index].status = !tasks[index].status;
+        this.setState({
+            tasks : tasks
+        });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+      }
+    }
+
+    findIndex = (id) => {
+      var { tasks } = this.state;
+      var result = -1;
+      tasks.forEach((task, index) => {
+        if(task.id === id){
+          result = index;
+        }
+      });
+      return result;
     }
 
   render() {
@@ -106,9 +101,6 @@ class App extends Component {
                         <div className="col-12">
                             <button className="btn btn-primary" onClick={ () => this.onToggleForm() }>
                                 <i className="fa fa-plus" aria-hidden="true"></i> Thêm công việc
-                            </button>&nbsp;
-                            <button className="btn btn-danger" onClick= { () => this.onGenerateData()}>
-                                <i className="fa fa-plus" aria-hidden="true"></i> Generate Data
                             </button>
                         </div>
                     </div>
@@ -118,7 +110,7 @@ class App extends Component {
                     { /* List */ }
                     <div className="row mt-30">
                         <div className="col-12">
-                            <TaskList tasks={tasks}/>
+                            <TaskList tasks={tasks} onUpdateStatus={ this.onUpdateStatus }/>
                         </div>
                     </div>
                     { /* End List */ }
