@@ -11,7 +11,7 @@ class TaskItem extends Component {
     }
 
     onUpdate = () => {
-      this.props.onUpdate();
+      this.props.onUpdate(this.props.task.id);
     }
 
     render() {
@@ -21,12 +21,12 @@ class TaskItem extends Component {
                 <td>{index + 1}</td>
                 <td>{task.name}</td>
                 <td className="text-center">
-                    <span className={task.status === true ? "badge badge-success" : "badge badge-danger" } onClick={ this.onUpdateStatus }>{task.status === true ? "Kích hoạt" : "Ẩn"}</span>
+                    <span className={task.status === true ? "badge badge-success" : "badge badge-danger" } onClick={ this.onUpdateStatus.bind(this) }>{task.status === true ? "Kích hoạt" : "Ẩn"}</span>
                 </td>
                 <td className="text-center">
-                    <button className="btn btn-warning text-white" onClick={ this.onUpdate }>
+                    <button className="btn btn-warning text-white" onClick={ this.onUpdate.bind(this) }>
                         <i className="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</button>&nbsp;
-                    <button className="btn btn-danger" onClick={ this.onDelete }>
+                    <button className="btn btn-danger" onClick={ this.onDelete.bind(this) }>
                         <i className="fa fa-trash" aria-hidden="true"></i> Xóa</button>
                 </td>
             </tr>

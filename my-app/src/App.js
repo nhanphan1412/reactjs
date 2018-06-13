@@ -10,7 +10,8 @@ class App extends Component {
         super(props);
         this.state = {
             tasks : [],
-            isDisplayForm: false
+            isDisplayForm: false,
+            tasksEditing: null
         }
     }
 
@@ -43,12 +44,25 @@ class App extends Component {
         });
     }
 
+    onShowForm = () => {
+      this.setState({
+        isDisplayForm : true
+      });
+    }
+
     onSubmit = (data) => {
         var { tasks } = this.state;
-        data.id = this.generateID();
-        tasks.push(data);
+        if(data.id === ''){
+          data.id = this.generateID();
+          tasks.push(data);
+        }
+        else{
+          var index = this.findIndex(data.id);
+          tasks[index] = data;
+        }
         this.setState({
-            tasks : tasks
+          tasks: tasks,
+          tasksEditing: null
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
@@ -91,15 +105,19 @@ class App extends Component {
       this.onCloseForm();
     }
 
-    onUpdate = () => {
-       this.setState({
-          isDisplayForm : true
-       });
+    onUpdate = (id) => {
+      var { tasks } = this.state;
+      var index = this.findIndex(id);
+      var tasksEditing = tasks[index];
+      this.setState({
+        tasksEditing : tasksEditing
+      });
+      this.onShowForm();
     }
 
   render() {
-      var { tasks, isDisplayForm } = this.state;
-      var elmTaskForm = isDisplayForm === true ? <TaskForm onSubmit={ this.onSubmit } onCloseForm= { this.onCloseForm } /> : '';
+      var { tasks, isDisplayForm, tasksEditing } = this.state;
+      var elmTaskForm = isDisplayForm === true ? <TaskForm onSubmit={ this.onSubmit.bind(this) } onCloseForm= { this.onCloseForm.bind(this) } task = { tasksEditing } /> : '';
     return (
         <div className="container manageJob">
             <div className="row">
@@ -129,7 +147,12 @@ class App extends Component {
                     { /* List */ }
                     <div className="row mt-30">
                         <div className="col-12">
-                            <TaskList tasks={tasks} onUpdateStatus={ this.onUpdateStatus } onDelete = { this.onDelete }  onUpdate = { this.onUpdate }/>
+                            <TaskList
+                                tasks={tasks}
+                                onUpdateStatus={ this.onUpdateStatus.bind(this) }
+                                onDelete = { this.onDelete.bind(this) }
+                                onUpdate = { this.onUpdate.bind(this) }
+                            />
                         </div>
                     </div>
                     { /* End List */ }
