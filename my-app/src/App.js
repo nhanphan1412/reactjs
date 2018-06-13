@@ -51,7 +51,6 @@ class App extends Component {
             tasks : tasks
         });
         localStorage.setItem('tasks', JSON.stringify(tasks));
-        console.log(data);
     }
 
     onUpdateStatus = (id) => {
@@ -76,6 +75,26 @@ class App extends Component {
         }
       });
       return result;
+    }
+
+    onDelete = (id) => {
+      var { tasks } = this.state;
+      var index = this.findIndex(id);
+      console.log(id);
+      if(index !== -1){
+        tasks.splice(index, 1);
+        this.setState({
+            tasks : tasks
+        });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+      }
+      this.onCloseForm();
+    }
+
+    onUpdate = () => {
+       this.setState({
+          isDisplayForm : true
+       });
     }
 
   render() {
@@ -110,7 +129,7 @@ class App extends Component {
                     { /* List */ }
                     <div className="row mt-30">
                         <div className="col-12">
-                            <TaskList tasks={tasks} onUpdateStatus={ this.onUpdateStatus }/>
+                            <TaskList tasks={tasks} onUpdateStatus={ this.onUpdateStatus } onDelete = { this.onDelete }  onUpdate = { this.onUpdate }/>
                         </div>
                     </div>
                     { /* End List */ }

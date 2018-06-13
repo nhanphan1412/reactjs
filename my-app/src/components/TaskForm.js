@@ -29,8 +29,8 @@ class TaskForm extends Component {
   onSubmit = (event) => {
     event.preventDefault();
     this.props.onSubmit(this.state);
-    // this.onClear();
-    // this.onCloseForm();
+    this.onClear();
+    this.onCloseForm();
   }
 
   onClear = () => {
@@ -38,6 +38,7 @@ class TaskForm extends Component {
         name : '',
         status: false
     });
+    console.log(this.state);
   }
 
   render() {
@@ -60,7 +61,7 @@ class TaskForm extends Component {
                         <option value={ false }>Ẩn</option>
                     </select>
                     <div className="text-center mt-30">
-                        <button type="submit" className="btn btn-warning text-white" onClick={ this.onSave }>
+                        <button type="submit" className="btn btn-warning text-white">
                             <i className="fa fa-floppy-o" aria-hidden="true"></i> Thêm</button>&nbsp;
                         <button type="submit" className="btn btn-danger" onClick={ this.onClear }>
                             <i className="fa fa-times" aria-hidden="true"></i> Hủy Bỏ</button>
