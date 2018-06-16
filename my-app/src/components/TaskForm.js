@@ -36,22 +36,35 @@ class TaskForm extends Component {
     this.setState({
       [name] : value
     });
-  }
+  };
 
   onSubmit = (event) => {
-    event.preventDefault();
-    this.props.onSubmit(this.state);
-    this.onClear();
-    this.onCloseForm();
-  }
+    console.log("onSubmit", this.state);
 
-  onClear = () => {
+    // Ngăn ngừa form submit reload page.
+    event.preventDefault();
+
+    this.props.onSubmit(this.state);
+    this.onClear(event);
+    this.onCloseForm();
+  };
+
+  // Lưu ý: <input type="submit"> hoặc <button> đều khiến cho form gọi hàm onSubmit.
+  // Để ngăn ngừa form gọi hàm submit, chúng ta có thể dùng event preventDefault().
+  onClear = (e) => {
+    console.log("onClear", this.state);
+
+    // Ngăn ngừa form gọi hàm submit.
+    e.preventDefault();
+
     this.setState({
         name : '',
         status: false
     });
-    console.log(this.state);
-  }
+
+    // Clear xong rồi thì đóng form.
+    this.onCloseForm();
+  };
 
   render() {
     var { id } = this.state;

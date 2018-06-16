@@ -16,12 +16,15 @@ class App extends Component {
     }
 
     componentWillMount(){
+
+        // Nếu localStorage chưa có dữ liệu thì lúc nào mình
+        // cũng có tasks là mảng rỗng phòng trường hợp nul.
+        let tasks = [];
+
         if(localStorage && localStorage.getItem('tasks')){
-            var tasks = JSON.parse(localStorage.getItem('tasks'));
+            tasks = JSON.parse(localStorage.getItem('tasks'));
         }
-        this.setState({
-            tasks : tasks
-        });
+        this.setState({tasks});
     }
 
     s4(){
