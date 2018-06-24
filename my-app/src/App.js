@@ -127,6 +127,10 @@ class App extends Component {
       this.onShowForm();
     }
 
+    onFilter = (filterName, filterStatus) => {
+      console.log(filterName, '-', filterStatus);
+    }
+
   render() {
       var { tasks, isDisplayForm, tasksEditing } = this.state;
       var elmTaskForm = isDisplayForm === true ? <TaskForm onSubmit={ this.onSubmit.bind(this) } onCloseForm= { this.onCloseForm.bind(this) } task = { tasksEditing } /> : '';
@@ -164,6 +168,7 @@ class App extends Component {
                                 onUpdateStatus={ this.onUpdateStatus.bind(this) }
                                 onDelete = { this.onDelete.bind(this) }
                                 onUpdate = { this.onUpdate.bind(this) }
+                                onFilter = { this.onFilter.bind(this) }
                             />
                         </div>
                     </div>
