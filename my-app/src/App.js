@@ -11,7 +11,11 @@ class App extends Component {
         this.state = {
             tasks : [],
             isDisplayForm: false,
-            tasksEditing: null
+            tasksEditing: null,
+            filter : {
+              name : '',
+              status : -1
+            }
         }
     }
 
@@ -129,10 +133,33 @@ class App extends Component {
 
     onFilter = (filterName, filterStatus) => {
       console.log(filterName, '-', filterStatus);
+      filterStatus = parseInt(filterStatus, 10);
+      console.log(typeof filterStatus);
+      this.setState({
+        filter : {
+          name : filterName.toLowerCase(),
+          status : filterStatus
+        }
+      });
     }
 
   render() {
-      var { tasks, isDisplayForm, tasksEditing } = this.state;
+      var { tasks, isDisplayForm, tasksEditing, filter } = this.state;
+      if(filter){
+        if(filter.name){
+          tasks = tasks.filter((task) => {
+              return task.name.toLowerCase().indexOf(filter.name) !== -1;
+          });
+        }
+        tasks = tasks.filter((task) => {
+            if(filter.status === -1){
+              return task;
+            }
+            else {
+              return task.status === (filter.status === 1 ? true : false)
+            }
+        });
+      }
       var elmTaskForm = isDisplayForm === true ? <TaskForm onSubmit={ this.onSubmit.bind(this) } onCloseForm= { this.onCloseForm.bind(this) } task = { tasksEditing } /> : '';
     return (
         <div className="container manageJob">

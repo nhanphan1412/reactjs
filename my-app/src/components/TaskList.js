@@ -13,6 +13,7 @@ class TaskList extends Component {
 
   onChange = (event) => {
     var target = event.target;
+    console.log(target);
     var name = target.name;
     var value = target.value;
     this.props.onFilter(
@@ -21,7 +22,7 @@ class TaskList extends Component {
     )
     this.setState({
       [name] : value
-    }); 
+    });
   }
 
     render() {
@@ -58,7 +59,7 @@ class TaskList extends Component {
                           placeholder="Nhập tên..."
                           name="filterName"
                           value = { filterName }
-                          onChange = { this.onChange }
+                          onChange = { this.onChange.bind(this) }
                         />
                     </td>
                     <td>
@@ -68,11 +69,11 @@ class TaskList extends Component {
                               id="exampleSelect1"
                               name="filterStatus"
                               value = { filterStatus }
-                              onChange = { this.onChange }
+                              onChange = { this.onChange.bind(this) }
                             >
-                                <option>Tất cả</option>
-                                <option>Kích hoạt</option>
-                                <option>Ẩn</option>
+                                <option value="-1">Tất cả</option>
+                                <option value="1">Kích hoạt</option>
+                                <option value="0">Ẩn</option>
                             </select>
                         </div>
                     </td>
