@@ -15,7 +15,8 @@ class App extends Component {
             filter : {
               name : '',
               status : -1
-            }
+            },
+            keyword: ''
         }
     }
 
@@ -143,8 +144,14 @@ class App extends Component {
       });
     }
 
+    onSearch = (keyword) => {
+      this.setState({
+        keyword : keyword
+      })
+    }
+
   render() {
-      var { tasks, isDisplayForm, tasksEditing, filter } = this.state;
+      var { tasks, isDisplayForm, tasksEditing, filter, keyword } = this.state;
       if(filter){
         if(filter.name){
           tasks = tasks.filter((task) => {
@@ -158,6 +165,11 @@ class App extends Component {
             else {
               return task.status === (filter.status === 1 ? true : false)
             }
+        });
+      }
+      if(keyword){
+        tasks = tasks.filter((task) => {
+            return task.name.toLowerCase().indexOf(keyword) !== -1;
         });
       }
       var elmTaskForm = isDisplayForm === true ? <TaskForm onSubmit={ this.onSubmit.bind(this) } onCloseForm= { this.onCloseForm.bind(this) } task = { tasksEditing } /> : '';
@@ -185,7 +197,7 @@ class App extends Component {
                         </div>
                     </div>
                     { /* Search - Sort */ }
-                        <Control />
+                        <Control onSearch = { this.onSearch }/>
                     { /* End Search - Sort */ }
                     { /* List */ }
                     <div className="row mt-30">
